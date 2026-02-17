@@ -40,7 +40,7 @@ public class CustomersServiceImpl implements CustomerService {
     @Override
     public String updateCustomer(Long customerId, Customer customer) {
         Customer fetchedCustomer = customerRepository.findById(customerId)
-                .orElseThrow(()->new RuntimeException("Customer not found"));
+                .orElseThrow(()->new CustomerExceptions("Customer not found"));
         fetchedCustomer.setFirstName(customer.getFirstName());
         fetchedCustomer.setLastName(customer.getLastName());
         fetchedCustomer.setEmail(customer.getEmail());
