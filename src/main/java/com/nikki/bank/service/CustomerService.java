@@ -2,18 +2,20 @@ package com.nikki.bank.service;
 
 
 import com.nikki.bank.model.Customer;
+import com.nikki.bank.payload.CustomerDTO;
+import com.nikki.bank.payload.CustomerResponse;
 
 import java.util.List;
 
 public interface CustomerService {
 
-    List<Customer> getAllCustomers();
+    CustomerResponse getAllCustomers();
 
-    Customer getCustomerById(Long customerId);
+    CustomerDTO getCustomerById(Long customerId);
 
-    String addCustomer(Customer customer);
+    CustomerDTO addCustomer(CustomerDTO customerDTO);
 
-    String updateCustomer(Long customerId, Customer customer);
+    CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO);
 
-    String deleteCustomer(Long customerId);
+    CustomerDTO deleteCustomer(Long customerId);
 }
