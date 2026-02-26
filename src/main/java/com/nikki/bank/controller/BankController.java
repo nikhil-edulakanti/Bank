@@ -20,8 +20,11 @@ public class BankController {
     }
 
     @GetMapping("/api/customers")
-    public ResponseEntity<CustomerResponse> getAllCustomers(){
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.getAllCustomers());
+    public ResponseEntity<CustomerResponse> getAllCustomers(@RequestParam(name = "pageSize" , required = false) Integer pageSize,
+                                                            @RequestParam(name = "pageNumber",required = false) Integer pageNumber) {
+
+        CustomerResponse result = customerService.getAllCustomers(pageSize, pageNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping("/api/customers")

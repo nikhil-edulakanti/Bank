@@ -8,8 +8,12 @@ import com.nikki.bank.payload.CustomerResponse;
 import com.nikki.bank.repo.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.xml.catalog.Catalog;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +30,20 @@ public class CustomersServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponse getAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
+    public CustomerResponse getAllCustomers(Integer pageSize, Integer pageNumber) {
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Customer> customers = customerRepository.findAll(pageable);
         if(customers.isEmpty()){
             throw new CustomerExceptions("No customers found");
         }
-        List<CustomerDTO> customerDTOList= customers.stream().map(c -> modelMapper.map(c, CustomerDTO.class)).collect(Collectors.toList());
+        List<CustomerDTO> customerDTOList = customers.stream().map(c->modelMapper.map(c,CustomerDTO.class)).collect(Collectors.toList());
         CustomerResponse customerResponse = new CustomerResponse();
         customerResponse.setCustomerDTOList(customerDTOList);
+        customerResponse.setPageSize(customers.getSize());
+        customerResponse.setPageNumber(customers.getNumber());
+        customerResponse.setTotalElements(customers.getTotalElements());
+        customerResponse.setLastPage(customers.isLast());
         return customerResponse;
     }
 

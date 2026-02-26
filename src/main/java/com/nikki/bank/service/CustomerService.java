@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CustomerService {
 
-    CustomerResponse getAllCustomers();
+    CustomerResponse getAllCustomers(Integer pageSize, Integer pageNumber);
 
     CustomerDTO getCustomerById(Long customerId);
 
